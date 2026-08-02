@@ -42,3 +42,17 @@ impl TypeSize for String {
         Some(self.len())
     }
 }
+
+#[cfg(feature = "std")]
+impl TypeSize for std::ffi::OsString {
+    fn extra_size(&self) -> usize {
+        core::mem::size_of::<u8>() * self.capacity()
+    }
+}
+
+#[cfg(feature = "std")]
+impl TypeSize for std::path::PathBuf {
+    fn extra_size(&self) -> usize {
+        core::mem::size_of::<u8>() * self.capacity()
+    }
+}
